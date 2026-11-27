@@ -85,7 +85,7 @@ or constraint, and the database is left unchanged.
 
 ### Deployment (Render)
 
-`render.yaml` defines a free web service and a free PostgreSQL database. In Render, choose
+`render.yaml` defines a free Render web service; the PostgreSQL database is a free Neon database whose connection string is set as `DATABASE_URL`. In Render, choose
 **New → Blueprint** and select this repository. With `AUTO_INIT_DB=1`, the app creates and seeds
 the schema on its first start if the database is empty. To restore the seed data on the server,
 open the web service's Shell and run `python init_db.py --reset`.

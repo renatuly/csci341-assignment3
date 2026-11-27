@@ -1,8 +1,5 @@
-# Render Blueprint: one web service + one PostgreSQL database.
-databases:
-  - name: conference-db
-    plan: free
-    databaseName: conference
+# Render Blueprint: one free web service. PostgreSQL is hosted on Neon (free, persistent);
+# paste its connection string as DATABASE_URL when Render asks for it.
 services:
   - type: web
     name: csci341-conference
@@ -12,9 +9,7 @@ services:
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: conference-db
-          property: connectionString
+        sync: false
       - key: AUTO_INIT_DB      # creates and seeds the schema on first start if the DB is empty
         value: "1"
       - key: SECRET_KEY
