@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard</h1>
+<p>{{ counts.users }} users · {{ counts.papers }} papers · {{ counts.reviews }} reviews ·
+   {{ counts.sessions }} sessions · {{ counts.conferences }} conferences</p>
+
+<h2>Conferences <span class="muted">(read-only, from seed data)</span></h2>
+<table>
+<tr><th>ID</th><th>Acronym</th><th>Name</th><th>City</th><th>Dates</th><th>Submission / review deadline</th><th>Hosts</th></tr>
+{% for c in confs %}
+<tr><td>{{ c.conference_id }}</td><td>{{ c.acronym }}</td><td>{{ c.name }}</td><td>{{ c.city }}, {{ c.country }}</td>
+<td>{{ c.start_date }} – {{ c.end_date }}</td><td>{{ c.submission_deadline }} / {{ c.review_deadline }}</td><td>{{ c.hosts }}</td></tr>
+{% endfor %}
+</table>
+
+<h2>Tracks <span class="muted">(read-only)</span></h2>
+<table>
+<tr><th>ID</th><th>Conference</th><th>Name</th><th>Research area</th><th>Coordinator</th></tr>
+{% for t in tracks %}
+<tr><td>{{ t.track_id }}</td><td>{{ t.conference_id }}</td><td>{{ t.name }}</td><td>{{ t.research_area }}</td><td>{{ t.coordinator }}</td></tr>
+{% endfor %}
+</table>
+
+<h2>Accepted paper schedule <span class="muted">(view accepted_paper_schedule)</span></h2>
+<table>
+<tr><th>Conf</th><th>Date</th><th>Time</th><th>Session</th><th>Room</th><th>Chair</th><th>Paper</th><th>Track</th><th>Corresponding author</th></tr>
+{% for s in schedule %}
+<tr><td>{{ s.conference_acronym }}</td><td>{{ s.session_date }}</td><td>{{ s.start_time.strftime('%H:%M') }}–{{ s.end_time.strftime('%H:%M') }}</td>
+<td>#{{ s.session_id }} {{ s.session_title }}</td><td>{{ s.room_label }}</td><td>{{ s.chair_name }}</td>
+<td><a href="{{ url_for('paper_detail', paper_id=s.paper_id) }}">#{{ s.paper_id }} {{ s.paper_title }}</a></td>
+<td>{{ s.track_name }}</td><td>{{ s.corresponding_author }} &lt;{{ s.corresponding_email }}&gt;</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

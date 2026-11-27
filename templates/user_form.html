@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if user_id else 'New' }} user{% endblock %}
+{% block content %}
+<h1>{{ 'Edit user #' ~ user_id if user_id else 'New user' }}</h1>
+<form method="post">
+<fieldset><legend>User</legend>
+  <label>Given name <input type="text" name="given_name" value="{{ u.given_name or '' }}" required></label>
+  <label>Surname <input type="text" name="surname" value="{{ u.surname or '' }}" required></label>
+  <label>Email <input type="email" name="email" value="{{ u.email or '' }}" required></label>
+  <label>Affiliation <input type="text" name="affiliation" value="{{ u.affiliation or '' }}" required></label>
+  <label>Country <input type="text" name="country" value="{{ u.country or '' }}" required></label>
+  <label>Phone number <input type="text" name="phone_number" value="{{ u.phone_number or '' }}" required></label>
+</fieldset>
+<fieldset><legend><label><input type="checkbox" name="is_author" {% if u.is_author %}checked{% endif %}> Author role</label></legend>
+  <label>ORCID (optional) <input type="text" name="orcid" value="{{ u.orcid or '' }}" placeholder="0000-0000-0000-0000"></label>
+  <label>Research areas (one per line) <textarea name="research_areas">{{ u.research_areas or '' }}</textarea></label>
+</fieldset>
+<fieldset><legend><label><input type="checkbox" name="is_reviewer" {% if u.is_reviewer %}checked{% endif %}> Reviewer role</label></legend>
+  <label>Years of reviewing experience <input type="number" min="0" name="years_experience" value="{{ u.years_experience if u.years_experience is not none else '' }}"></label>
+  <label>Expertise areas (one per line) <textarea name="expertise">{{ u.expertise or '' }}</textarea></label>
+  <label>Reviewer pools</label>
+  {% for c in confs %}
+    <div><input type="checkbox" name="pools" value="{{ c.conference_id }}" {% if c.conference_id in (u.pools or []) %}checked{% endif %}> {{ c.acronym }} ({{ c.city }})</div>
+  {% endfor %}
+</fieldset>
+<button class="btn" type="submit">Save</button>
+<a class="btn light" href="{{ url_for('user_detail', user_id=user_id) if user_id else url_for('users_list') }}">Cancel</a>
+</form>
+{% endblock %}

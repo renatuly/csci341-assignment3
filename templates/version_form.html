@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Edit version{% endblock %}
+{% block content %}
+<h1>Paper #{{ v.paper_id }} — version {{ v.version_no }}</h1>
+<form method="post">
+<fieldset>
+  <label>File location <input type="text" name="file_location" value="{{ v.file_location }}" required></label>
+  <label>Uploaded at <input type="datetime-local" name="uploaded_at" value="{{ v.uploaded_at.strftime('%Y-%m-%dT%H:%M') }}" required></label>
+  <label>Change note (optional) <input type="text" name="change_note" value="{{ v.change_note or '' }}"></label>
+  <p><button class="btn" type="submit">Save</button>
+  <a class="btn light" href="{{ url_for('paper_detail', paper_id=v.paper_id) }}">Cancel</a></p>
+</fieldset></form>
+{% endblock %}

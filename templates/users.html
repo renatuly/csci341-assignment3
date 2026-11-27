@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<h1>Users</h1>
+<p><a class="btn" href="{{ url_for('user_new') }}">+ New user</a></p>
+<table>
+<tr><th>ID</th><th>Name</th><th>Email</th><th>Affiliation</th><th>Country</th><th>Phone</th><th>Roles</th><th></th></tr>
+{% for u in users %}
+<tr><td>{{ u.user_id }}</td><td><a href="{{ url_for('user_detail', user_id=u.user_id) }}">{{ u.given_name }} {{ u.surname }}</a></td>
+<td>{{ u.email }}</td><td>{{ u.affiliation }}</td><td>{{ u.country }}</td><td>{{ u.phone_number }}</td>
+<td>{% if u.is_author %}author {% endif %}{% if u.is_reviewer %}reviewer ({{ u.years_experience }} y){% endif %}</td>
+<td><a class="btn light" href="{{ url_for('user_edit', user_id=u.user_id) }}">Edit</a></td></tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,3 @@
+Video presentation (Google Drive, shared as "Anyone with the link"): <PASTE VIDEO LINK>
+Deployed application: <PASTE APP URL>
+Demo account: none required (authentication is not part of the assignment)

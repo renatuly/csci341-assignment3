@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Sessions{% endblock %}
+{% block content %}
+<h1>Sessions</h1>
+<p><a class="btn" href="{{ url_for('session_new') }}">+ New session</a></p>
+<table>
+<tr><th>ID</th><th>Conference</th><th>Title</th><th>Date</th><th>Time</th><th>Room</th><th>Chair</th><th>Papers</th><th></th></tr>
+{% for s in sessions %}
+<tr><td>{{ s.session_id }}</td><td>{{ s.acronym }}</td><td>{{ s.title }}</td><td>{{ s.session_date }}</td>
+<td>{{ s.start_time.strftime('%H:%M') }}–{{ s.end_time.strftime('%H:%M') }}</td><td>{{ s.room_label }}</td><td>{{ s.chair }}</td>
+<td>{{ s.papers or 'empty' }}</td>
+<td><a class="btn light" href="{{ url_for('session_edit', session_id=s.session_id) }}">Edit</a>
+<form class="inline" method="post" action="{{ url_for('session_delete', session_id=s.session_id) }}"><button class="btn danger" type="submit">Delete</button></form></td></tr>
+{% endfor %}
+</table>
+<p class="muted">Papers are assigned to sessions from the paper edit page.</p>
+{% endblock %}

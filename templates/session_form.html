@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if session_id else 'New' }} session{% endblock %}
+{% block content %}
+<h1>{{ 'Edit session #' ~ session_id if session_id else 'New session' }}</h1>
+<form method="post">
+<fieldset>
+  <label>Conference <select name="conference_id" required><option value="">— choose —</option>
+    {% for c in confs %}<option value="{{ c.conference_id }}" {% if c.conference_id == s.conference_id %}selected{% endif %}>{{ c.acronym }} ({{ c.city }})</option>{% endfor %}</select></label>
+  <label>Title <input type="text" name="title" value="{{ s.title or '' }}" required></label>
+  <label>Date <input type="date" name="session_date" value="{{ s.session_date or '' }}" required></label>
+  <label>Start time <input type="time" name="start_time" value="{{ s.start_time or '' }}" required></label>
+  <label>End time <input type="time" name="end_time" value="{{ s.end_time or '' }}" required></label>
+  <label>Room label <input type="text" name="room_label" value="{{ s.room_label or '' }}" required></label>
+  <label>Chair (must be in the conference's reviewer pool) <select name="chair_id" required><option value="">— choose —</option>
+    {% for rv in reviewers %}<option value="{{ rv.id }}" {% if rv.id == s.chair_id %}selected{% endif %}>{{ rv.name }} (#{{ rv.id }})</option>{% endfor %}</select></label>
+  <p><button class="btn" type="submit">Save</button> <a class="btn light" href="{{ url_for('sessions_list') }}">Cancel</a></p>
+</fieldset></form>
+{% endblock %}

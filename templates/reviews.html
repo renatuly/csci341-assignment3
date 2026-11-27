@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Reviews{% endblock %}
+{% block content %}
+<h1>Reviews <span class="muted">(completed reviews only)</span></h1>
+<p><a class="btn" href="{{ url_for('review_new') }}">+ New review</a></p>
+<table>
+<tr><th>ID</th><th>Paper</th><th>Reviewer</th><th>Score</th><th>Recommendation</th><th>Date</th><th></th></tr>
+{% for r in reviews %}
+<tr><td>{{ r.review_id }}</td><td><a href="{{ url_for('paper_detail', paper_id=r.paper_id) }}">#{{ r.paper_id }} {{ r.title }}</a></td>
+<td>{{ r.reviewer }} (#{{ r.reviewer_id }})</td><td>{{ r.overall_score }}</td><td>{{ r.recommendation }}</td><td>{{ r.review_submission_date }}</td>
+<td><a class="btn light" href="{{ url_for('review_edit', review_id=r.review_id) }}">Edit</a>
+<form class="inline" method="post" action="{{ url_for('review_delete', review_id=r.review_id) }}"><button class="btn danger" type="submit">Delete</button></form></td></tr>
+{% endfor %}
+</table>
+{% endblock %}

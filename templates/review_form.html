@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if review_id else 'New' }} review{% endblock %}
+{% block content %}
+<h1>{{ 'Edit review #' ~ review_id if review_id else 'New review' }}</h1>
+<form method="post">
+<fieldset>
+  <label>Paper <select name="paper_id" required><option value="">— choose —</option>
+    {% for p in papers %}<option value="{{ p.paper_id }}" {% if p.paper_id == r.paper_id %}selected{% endif %}>#{{ p.paper_id }} {{ p.title }}</option>{% endfor %}</select></label>
+  <label>Reviewer <select name="reviewer_id" required><option value="">— choose —</option>
+    {% for rv in reviewers %}<option value="{{ rv.id }}" {% if rv.id == r.reviewer_id %}selected{% endif %}>{{ rv.name }} (#{{ rv.id }})</option>{% endfor %}</select></label>
+  <label>Overall score (1–5) <input type="number" name="overall_score" value="{{ r.overall_score if r.overall_score is not none else '' }}" required></label>
+  <label>Recommendation <select name="recommendation">
+    {% for x in ['accept', 'reject'] %}<option {% if x == r.recommendation %}selected{% endif %}>{{ x }}</option>{% endfor %}</select></label>
+  <label>Comments for authors <textarea name="comments_for_authors" required>{{ r.comments_for_authors or '' }}</textarea></label>
+  <label>Confidential comments (optional) <textarea name="confidential_comments">{{ r.confidential_comments or '' }}</textarea></label>
+  <label>Review submission date <input type="date" name="review_submission_date" value="{{ r.review_submission_date or '' }}" required></label>
+  <p><button class="btn" type="submit">Save</button> <a class="btn light" href="{{ url_for('reviews_list') }}">Cancel</a></p>
+</fieldset></form>
+{% endblock %}

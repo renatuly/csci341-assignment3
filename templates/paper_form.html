@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if paper_id else 'New' }} paper{% endblock %}
+{% block content %}
+<h1>{{ 'Edit paper #' ~ paper_id if paper_id else 'New paper' }}</h1>
+<form method="post">
+<fieldset><legend>Paper</legend>
+  <label>Track
+    <select name="track_id" required>
+      <option value="">— choose —</option>
+      {% for t in tracks %}<option value="{{ t.track_id }}" {% if t.track_id == p.track_id %}selected{% endif %}>{{ t.acronym }} / {{ t.name }} (track {{ t.track_id }})</option>{% endfor %}
+    </select></label>
+  <label>Title <input type="text" name="title" value="{{ p.title or '' }}" required></label>
+  <label>Abstract <textarea name="abstract" required>{{ p.abstract or '' }}</textarea></label>
+  <label>Submission date <input type="date" name="submission_date" value="{{ p.submission_date or '' }}" required></label>
+  <label>Status
+    <select name="status">{% for s in statuses %}<option {% if s == p.status %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></label>
+  <label>Session (accepted papers only; same conference as the track)
+    <select name="session_id">
+      <option value="">— none —</option>
+      {% for s in sessions %}<option value="{{ s.session_id }}" {% if s.session_id == p.session_id %}selected{% endif %}>#{{ s.session_id }} {{ s.title }} ({{ s.acronym }})</option>{% endfor %}
+    </select></label>
+  <label>Keywords (one per line) <textarea name="keywords" required>{{ p.keywords or '' }}</textarea></label>
+</fieldset>
+<fieldset><legend>Authors (choose the corresponding author with the radio button)</legend>
+<table class="authors"><tr><th>Author</th><th>Position</th><th>Corresponding</th></tr>
+{% for i in range(slots) %}{% set a = p.authors[i] %}
+<tr><td><select name="author_{{ i }}"><option value="">—</option>
+  {% for au in authors %}<option value="{{ au.id }}" {% if au.id == a.author_id %}selected{% endif %}>{{ au.name }} (#{{ au.id }})</option>{% endfor %}
+</select></td>
+<td><input type="number" min="1" name="position_{{ i }}" value="{{ a.position if a.position else '' }}" style="width:70px"></td>
+<td><input type="radio" name="corresponding" value="{{ i }}" {% if p.corresponding == i %}checked{% endif %}></td></tr>
+{% endfor %}</table>
+</fieldset>
+{% if not paper_id %}
+<fieldset><legend>First version</legend>
+  <label>File location <input type="text" name="file_location" value="{{ p.file_location or '' }}" placeholder="/files/papers/new/v1.pdf" required></label>
+  <label>Change note (optional) <input type="text" name="change_note" value="{{ p.change_note or '' }}"></label>
+</fieldset>
+{% endif %}
+<button class="btn" type="submit">Save</button>
+<a class="btn light" href="{{ url_for('paper_detail', paper_id=paper_id) if paper_id else url_for('papers_list') }}">Cancel</a>
+</form>
+{% endblock %}
