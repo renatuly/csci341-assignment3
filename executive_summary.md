@@ -13,9 +13,9 @@
   and then rolls them back.
 - Part 3: Flask app with CRUD for users (author and reviewer profiles), papers (authors, keywords,
   versions), reviews and sessions. Each change runs in one transaction. Self-reviews and invalid
-  session assignments are rejected with clear messages. Deployed at <APP URL> with a persistent
+  session assignments are rejected with clear messages. Deployed at https://csci341-conference-dgkd.onrender.com with a persistent
   PostgreSQL database.
 
 **Incomplete or nonworking requirements:** None known. <update if anything changes>
 
-**Links:** video <VIDEO URL> · application <APP URL>
+**Links:** video <VIDEO URL> · application https://csci341-conference-dgkd.onrender.com

@@ -21,7 +21,7 @@ application with CRUD for users, papers, reviews and sessions.
 ## Software versions
 
 - Python 3.12 or newer (tested with 3.14.7)
-- PostgreSQL 16 (tested with 16 in Docker; the deployed instance runs the provider's current version)
+- PostgreSQL 16 locally (Docker); the deployed app uses a free Neon PostgreSQL database
 - SQLAlchemy 2.1.9, psycopg2-binary 2.9.13, Flask 3.1.3, gunicorn 27.0.1
 
 ## Setup and database restoration
