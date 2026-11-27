@@ -1,4 +1,4 @@
-# CSCI 341 Assignment 3: Research Conference and Paper Review Management System
+# CSCI 341 Assignment 3: Research Conference and Paper Review
 
 PostgreSQL database, a Python/SQLAlchemy program for the numbered Part 2 tasks, and a Flask web
 application with CRUD for users, papers, reviews and sessions.
